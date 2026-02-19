@@ -1,4 +1,19 @@
-:root {
+import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -66,3 +81,29 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+`;
+
+export const S_hover01 = styled.div`
+  &:hover {
+    background-color: #33399b;
+  }
+`;
+
+export const S_hover02 = styled.a`
+  &:hover {
+    color: #33399b;
+    &::after {
+      border-left-color: #33399b;
+      border-bottom-color: #33399b;
+    }
+  }
+`;
+
+export const S_hover03 = styled.div`
+  color: #ffffff;
+
+  &:hover {
+    background-color: #33399b;
+    color: #ffffff;
+  }
+`;
