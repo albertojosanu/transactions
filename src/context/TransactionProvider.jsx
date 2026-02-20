@@ -1,4 +1,4 @@
-import { useState, useContext, useCallback } from "react";
+import { createContext, useState, useContext, useCallback } from "react";
 import { AuthContext } from "./AuthProvider.jsx";
 import {
   getTransactions,
@@ -20,16 +20,32 @@ const TransactionProvider = ({ children }) => {
   const updateTransactions = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getTransactions({
+      const newTransactions = await getTransactions({
         token: user?.token,
       });
-      if (data) setTransactions(data);
+      setTransactions(newTransactions);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const showTransactions = async () => {
+    try {
+      setLoading(true);
+      const newTransactions = await postPeriodTransactions({
+        token: user?.token,
+        period,
+      });
+      setTransactions(newTransactions);
+    } catch (err) {
+      setError(err.message);
+      } finally {
+      setLoading(false);
+    }
+    }
+
 
   const addNewTransaction = async (transaction) => {
     try {
@@ -77,6 +93,7 @@ const TransactionProvider = ({ children }) => {
         error,
         setError,
         updateTransactions,
+        showTransactions,
         addNewTransaction,
         updateTransaction,
         removeTransaction,
