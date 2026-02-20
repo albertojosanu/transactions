@@ -9,7 +9,7 @@ export async function getTransactions({ token }) {
         Authorization: "Bearer " + token,
       },
     });
-    return data.data.transactions;
+    return data.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -26,7 +26,7 @@ export async function getFilterTransactions({ token, sort, filter }) {
         filter,
       },
     });
-    return data.data.transactions;
+    return data.data;
   } catch (error) {
     throw new Error(error.message);
   }
