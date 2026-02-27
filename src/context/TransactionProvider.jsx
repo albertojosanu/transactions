@@ -1,7 +1,9 @@
-import { useState, useContext, useCallback } from "react";
+import { createContext, useState, useContext, useCallback } from "react";
 import { AuthContext } from "./AuthProvider.jsx";
 import {
   getTransactions,
+  getFilterTransactions,
+  postPeriodTransactions,
   postTransaction,
   editTransaction,
   deleteTransaction,
@@ -12,24 +14,55 @@ export const TransactionContext = createContext(null);
 const TransactionProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [periodTransactions, setPeriodTransactions] = useState([]);
   const [error, setError] = useState("");
-  const [date, setDate] = useState(null);
+  const [start, setStart] = useState(null);
+  const [end, setEnd] = useState(null);
 
   const { user } = useContext(AuthContext);
 
   const updateTransactions = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await getTransactions({
+      const newTransactions = await getTransactions({
         token: user?.token,
       });
-      if (data) setTransactions(data);
+      setTransactions(newTransactions);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const filterTransactions = async (sortBy, filterBy) => {
+    try {
+      const newTransactions = await getFilterTransactions({
+        token: user?.token,
+        sortBy,
+        filterBy,
+      });
+      setTransactions(newTransactions);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const showTransactions = async (start, end) => {
+    try {
+      setLoading(true);
+      const newTransactions = await postPeriodTransactions({
+        token: user?.token,
+        start,
+        end,
+      });
+      setPeriodTransactions(newTransactions);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addNewTransaction = async (transaction) => {
     try {
@@ -68,20 +101,40 @@ const TransactionProvider = ({ children }) => {
     }
   };
 
+  const range = (start, end, reverse = false) => 
+    !reverse
+      ? Array.from({ length: end - start + 1 }, (_, i) => start + i)
+      : Array.from({ length: start - end + 1 }, (_, i) => start - i);
+
+  const format = (number) => 
+    range(Math.floor((String(number).length + 2) / 3), 1, true).map((i) =>
+      i === 1
+        ? String(number).slice(-3) + " ₽"
+        : String(number).slice(-3 * i, -3 * (i - 1)) + " ",
+    );
+
   return (
     <TransactionContext.Provider
       value={{
         loading,
         transactions,
         setTransactions,
+        periodTransactions,
+        setPeriodTransactions,
         error,
         setError,
         updateTransactions,
+        filterTransactions,
+        showTransactions,
         addNewTransaction,
         updateTransaction,
         removeTransaction,
-        date,
-        setDate,
+        start,
+        setStart,
+        end,
+        setEnd,
+        range,
+        format,
       }}
     >
       {children}

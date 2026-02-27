@@ -7,39 +7,42 @@ export async function getTransactions({ token }) {
     const data = await axios.get(API_TRANSACTION_URL, {
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "text/html",
       },
     });
-    return data.data.transactions;
+    return data.data;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function getFilterTransactions({ token, sort, filter }) {
+export async function getFilterTransactions({ token, sortBy, filterBy }) {
   try {
     const data = await axios.get(API_TRANSACTION_URL, {
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "text/html",
       },
       params: {
-        sort,
-        filter,
+        sortBy,
+        filterBy,
       },
     });
-    return data.data.transactions;
+    return data.data;
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-export async function postPeriodTransactions({ token, period }) {
+export async function postPeriodTransactions({ token, start, end }) {
   try {
-    const data = await axios.get(API_TRANSACTION_URL + "period", period, {
+    const data = await axios.post(API_TRANSACTION_URL + "period", {start, end}, {
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "text/html",
       },
     });
-    return data.data.transactions;
+    return data.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -61,7 +64,7 @@ export async function postTransaction({ token, transaction }) {
 
 export async function editTransaction({ token, id, transaction }) {
   try {
-    const data = await axios.put(API_TRANSACTION_URL + id, transaction, {
+    const data = await axios.patch(API_TRANSACTION_URL + id, transaction, {
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "text/html",
