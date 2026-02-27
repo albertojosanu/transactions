@@ -24,7 +24,7 @@ import logo from '../../images/logo.svg'
 function Header({ connect }) {
   //const { user } = useContext(AuthContext);
   const { logout } = useContext(AuthContext);
-  const { setTransactions, setError } = useContext(TransactionContext);
+  const { setTransactions, setPeriodTransactions, setError } = useContext(TransactionContext);
   //const { setDate } = useContext(TransactionContext);
 
   const navigate = useNavigate();
@@ -41,6 +41,7 @@ function Header({ connect }) {
     e.preventDefault();
     logout();
     setTransactions([]);
+    setPeriodTransactions([]);
     //setError("");
     navigate("/login");
   };

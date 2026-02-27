@@ -143,7 +143,21 @@ export const S_otherMonth = styled.div`
 `;
 
 export const S_cellDay = styled.div`
-  &:hover {
+  font-weight: ${({ $current }) => $current && 800};
+  color: ${({ $weekend }) => $weekend && "#5d646b"};
+  ${({ $activeDay }) =>
+    $activeDay && {
+      backgroundColor: "#94a6be",
+      color: "#ffffff",
+      width: "2em",
+      height: "2em",
+      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }};
+
+  /* &:hover {
     color: #94a6be;
     background-color: #eaeef6;
     width: 2em;
@@ -152,6 +166,21 @@ export const S_cellDay = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  } */
+
+  &:hover {
+    ${({ $activeDay }) =>
+      !$activeDay && {
+        color: "#94a6be",
+        backgroundColor: "#eaeef6",
+        width: "2em",
+        height: "2em",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    font-weight: 800;
   }
 `;
 

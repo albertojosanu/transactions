@@ -4,15 +4,16 @@ import { TransactionContext } from "../../context/TransactionProvider.jsx";
 import bin from "../../images/bin.svg";
 
 function Table() {
-  const { transactions, removeTransaction, setError, loading } =
+  const { transactions, removeTransaction, setError, format } =
     useContext(TransactionContext);
   //const navigate = useNavigate();
 
-  const range = (start, end) =>
-    Array.from({ length: start - end + 1 }, (_, i) => start - i);
+  // const range = (start, end) =>
+  //   Array.from({ length: start - end + 1 }, (_, i) => start - i);
 
   return (
     <>
+    <div>Таблица расходов</div>
       <table>
         <thead>
           <tr>
@@ -47,12 +48,7 @@ function Table() {
               <td>{new Date(row.date).toLocaleDateString("ru-RU")}</td>
               {/* <td>{(() => {for (let i = Math.floor((String(row.sum).length + 2) / 3); i > 0 ; i--) {console.log(i === 1 ? (String(row.sum).slice(-3)) : (String(row.sum).slice(-3*i, -3*(i-1)) + " "))}})()}</td> */}
               <td>
-                {range(Math.floor((String(row.sum).length + 2) / 3), 1).map(
-                  (i) =>
-                    i === 1
-                      ? String(row.sum).slice(-3) + " ₽"
-                      : String(row.sum).slice(-3 * i, -3 * (i - 1)) + " ",
-                )}
+                {format(row.sum)}
               </td>
               <td>
                 <img

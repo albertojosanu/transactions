@@ -4,6 +4,7 @@ import NewCost from "../components/NewCost/NewCost.jsx";
 const ListPage = () => {
   return (
     <>
+    <div>Мои расходы</div>
       <Table />
       <NewCost />
     </>

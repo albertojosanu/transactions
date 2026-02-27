@@ -4,6 +4,7 @@ import Chart from "../components/Chart/Chart.jsx";
 const AnalysisPage = () => {
   return (
     <>
+    <div>Анализ расходов</div>
       <Calendar />
       <Chart />
     </>

@@ -10,7 +10,7 @@ import education from "../../images/education.svg";
 import others from "../../images/others.svg";
 
 function PopNewCard() {
-  const { addNewTransaction, setError, loading } =
+  const { addNewTransaction, setError } =
     useContext(TransactionContext);
 
   const [formData, setFormData] = useState({
@@ -79,7 +79,7 @@ function PopNewCard() {
               name="description"
               //id="formTitle"
               placeholder="Введите описание"
-              autoFocus
+              
               onChange={handleChange}
             />
           </div>
@@ -143,7 +143,7 @@ function PopNewCard() {
               //id="formTitle"
               //placeholder="Введите дату"
               value={new Date().toLocaleDateString("en-CA")}
-              autoFocus
+              
               onChange={handleChange}
             />
           </div>
@@ -158,7 +158,7 @@ function PopNewCard() {
               name="sum"
               //id="formTitle"
               placeholder="Введите сумму"
-              autoFocus
+              
               onChange={handleChange}
             />
           </div>
