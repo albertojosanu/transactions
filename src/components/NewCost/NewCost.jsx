@@ -1,6 +1,16 @@
 import { useState, useContext } from "react";
-//import { useNavigate } from "react-router-dom";
-import { GlobalStyle } from "../../index.styled.js";
+import { SContainer } from "../../index.styled.js";
+import {
+  SNewCost__ttl,
+  SNewCost__label,
+  SNewCost__input,
+  SNewCost__wrapper,
+  SNewCost__star,
+  SNewCost__btnEnter,
+  SNewCost__category,
+  SNewCost__categories,
+  SImg,
+} from "./NewCost.styled.js";
 import { TransactionContext } from "../../context/TransactionProvider.jsx";
 import food from "../../images/food.svg";
 import transport from "../../images/transport.svg";
@@ -8,18 +18,72 @@ import housing from "../../images/housing.svg";
 import joy from "../../images/joy.svg";
 import education from "../../images/education.svg";
 import others from "../../images/others.svg";
+import foodActive from "../../images/food_active.svg";
+import transportActive from "../../images/transport_active.svg";
+import housingActive from "../../images/housing_active.svg";
+import joyActive from "../../images/joy_active.svg";
+import educationActive from "../../images/education_active.svg";
+import othersActive from "../../images/others_active.svg";
 
 function PopNewCard() {
-  const { addNewTransaction, setError } =
-    useContext(TransactionContext);
+  const { addNewTransaction } = useContext(TransactionContext);
 
   const [formData, setFormData] = useState({
     description: "",
-    sum: 0,
-    date: new Date(),
+    sum: null,
+    date: null,
   });
 
-  const [category, setCategory] = useState("food");
+  const [category, setCategory] = useState(null);
+
+  const errorText =
+    "Упс! Введенные вами данные некорректны. Введите данные корректно и повторите попытку.";
+
+  const [valid, setValid] = useState(false);
+
+  const [errors, setErrors] = useState({
+    description: false,
+    category: false,
+    sum: false,
+    date: false,
+  });
+
+  const [error, setError] = useState("");
+
+  const validateForm = () => {
+    const newErrors = {
+      description: false,
+      category: false,
+      sum: false,
+      date: false,
+    };
+    let isValid = true;
+
+    const wrong = () => {
+      setError(errorText);
+      isValid = false;
+    };
+
+    if (!formData.description.trim()) {
+      newErrors.description = true;
+      wrong();
+    }
+    if (!category) {
+      newErrors.category = true;
+      wrong();
+    }
+    if (formData.sum <= 0) {
+      newErrors.sum = true;
+      wrong();
+    }
+    if (!formData.date || new Date(formData.date) > new Date()) {
+      newErrors.date = true;
+      wrong();
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,28 +91,21 @@ function PopNewCard() {
       ...formData,
       [name]: value,
     });
+
+    setErrors({ ...errors, [name]: false });
+    setError("");
+    setValid(
+      Object.keys(formData).reduce(
+        (total, currentValue) => total && formData[currentValue],
+        true,
+      ),
+    );
   };
 
-  let message = "Введите";
-
-  //const navigate = useNavigate();
   const handleCreate = (e) => {
     e.preventDefault();
 
-    if (!formData.description || !formData.sum) {
-      if (!formData.description) {
-        message = message + " описание";
-      }
-
-      if (!formData.sum) {
-        if (!formData.description) {
-          message = message + " и";
-        }
-        message = message + " сумму";
-      }
-
-      setError(message);
-      message = "Введите";
+    if (!validateForm()) {
       return;
     }
 
@@ -56,136 +113,126 @@ function PopNewCard() {
       description: formData.description,
       sum: Number(formData.sum),
       category,
-      date: formData.date.setHours(-formData.date.getTimezoneOffset() / 60),
+      date: new Date(formData.date).setHours(-new Date(formData.date).getTimezoneOffset() / 60),
     });
     setError("");
-    //navigate("/list");
   };
 
   return (
-    <>
-      <GlobalStyle />
-      <div className="pop-new-card">
-        <h3 className="pop-new-card__ttl">Новый расход</h3>
-        {/* <div className="pop-new-card__wrap"> */}
-        <form className="pop-new-card__form form-new">
-          <div className="form-new__block">
-            <label htmlFor="formTitle" className="subttl">
-              Описание
-            </label>
-            <input
-              className="form-new__input"
-              type="text"
-              name="description"
-              //id="formTitle"
-              placeholder="Введите описание"
-              
-              onChange={handleChange}
-            />
-          </div>
+    <SContainer $width="379px" $height="618px">
+      <SNewCost__ttl>Новый расход</SNewCost__ttl>
+      <form>
+        <SNewCost__label>Описание</SNewCost__label>
+        <SNewCost__star>{errors.description && " *"}</SNewCost__star>
+        <SNewCost__wrapper $error={error} $validate={valid}>
+          <SNewCost__input
+            type="text"
+            name="description"
+            placeholder="Введите описание"
+            onChange={handleChange}
+          />
+        </SNewCost__wrapper>
 
-          <div className="pop-new-card__categories categories">
-            <p className="categories__p subttl">Категория</p>
-            <div className="categories__themes">
-              <div
-                className={`categories__theme ${category === "food" && " _active-category"}`}
-                onClick={() => setCategory("food")}
-              >
-                <img src={food} alt="Еда"></img>
-                <p>Еда</p>
-              </div>
-              <div
-                className={`categories__theme ${category === "Транспорт" && " _active-category"}`}
-                onClick={() => setCategory("transport")}
-              >
-                <img src={transport} alt="transport"></img>
-                <p>Транспорт</p>
-              </div>
-              <div
-                className={`categories__theme ${category === "housing" && " _active-category"}`}
-                onClick={() => setCategory("housing")}
-              >
-                <img src={housing} alt="Жилье"></img>
-                <p>Жилье</p>
-              </div>
-              <div
-                className={`categories__theme ${category === "joy" && " _active-category"}`}
-                onClick={() => setCategory("joy")}
-              >
-                <img src={joy} alt="Развлечения"></img>
-                <p>Развлечения</p>
-              </div>
-              <div
-                className={`categories__theme ${category === "education" && " _active-category"}`}
-                onClick={() => setCategory("education")}
-              >
-                <img src={education} alt="Образование"></img>
-                <p>Образование</p>
-              </div>
-              <div
-                className={`categories__theme ${category === "others" && " _active-category"}`}
-                onClick={() => setCategory("others")}
-              >
-                <img src={others} alt="Другое"></img>
-                <p>Другое</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-new__block">
-            <label htmlFor="textArea" className="subttl">
-              Дата
-            </label>
-            <input
-              className="form-new__input"
-              type="date"
-              name="date"
-              //id="formTitle"
-              //placeholder="Введите дату"
-              value={new Date().toLocaleDateString("en-CA")}
-              
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-new__block">
-            <label htmlFor="textArea" className="subttl">
-              Сумма
-            </label>
-            <input
-              className="form-new__input"
-              type="number"
-              name="sum"
-              //id="formTitle"
-              placeholder="Введите сумму"
-              
-              onChange={handleChange}
-            />
-          </div>
-
-          <button
-            className="form-new__create _hover01"
-            id="btnCreate"
-            onClick={handleCreate}
+        <SNewCost__label>Категория</SNewCost__label>
+        <SNewCost__star>{errors.category && " *"}</SNewCost__star>
+        <SNewCost__categories>
+          <SNewCost__category
+            $active={category === "food"}
+            onClick={() => setCategory(category !== "food" ? "food" : null)}
           >
-            Добавить новый расход
-          </button>
-        </form>
+            <SImg
+              src={category === "food" ? foodActive : food}
+              alt="Еда"
+            ></SImg>
+            <p>Еда</p>
+          </SNewCost__category>
+          <SNewCost__category
+            $active={category === "transport"}
+            onClick={() =>
+              setCategory(category !== "transport" ? "transport" : null)
+            }
+          >
+            <SImg
+              src={category === "transport" ? transportActive : transport}
+              alt="transport"
+            ></SImg>
+            <p>Транспорт</p>
+          </SNewCost__category>
+          <SNewCost__category
+            $active={category === "housing"}
+            onClick={() =>
+              setCategory(category !== "housing" ? "housing" : null)
+            }
+          >
+            <SImg
+              src={category === "housing" ? housingActive : housing}
+              alt="Жилье"
+            ></SImg>
+            <p>Жилье</p>
+          </SNewCost__category>
+          <SNewCost__category
+            $active={category === "joy"}
+            onClick={() => setCategory(category !== "joy" ? "joy" : null)}
+          >
+            <SImg
+              src={category === "joy" ? joyActive : joy}
+              alt="Развлечения"
+            ></SImg>
+            <p>Развлечения</p>
+          </SNewCost__category>
+          <SNewCost__category
+            $active={category === "education"}
+            onClick={() =>
+              setCategory(category !== "education" ? "education" : null)
+            }
+          >
+            <SImg
+              src={category === "education" ? educationActive : education}
+              alt="Образование"
+            ></SImg>
+            <p>Образование</p>
+          </SNewCost__category>
+          <SNewCost__category
+            $active={category === "others"}
+            onClick={() => setCategory(category !== "others" ? "others" : null)}
+          >
+            <SImg
+              src={category === "others" ? othersActive : others}
+              alt="Другое"
+            ></SImg>
+            <p>Другое</p>
+          </SNewCost__category>
+        </SNewCost__categories>
 
-        {/* </div> */}
-      </div>
-    </>
+        <SNewCost__label>Дата</SNewCost__label>
+        <SNewCost__star>{errors.date && " *"}</SNewCost__star>
+        <SNewCost__wrapper $error={error} $validate={valid}>
+          <SNewCost__input
+            type="date"
+            name="date"
+            //placeholder="Введите дату"
+            //value={new Date().toLocaleDateString("en-CA")}
+
+            onChange={handleChange}
+          />
+        </SNewCost__wrapper>
+
+        <SNewCost__label>Сумма</SNewCost__label>
+        <SNewCost__star>{errors.sum && " *"}</SNewCost__star>
+        <SNewCost__wrapper $error={error} $validate={valid}>
+          <SNewCost__input
+            type="number"
+            name="sum"
+            placeholder="Введите сумму"
+            onChange={handleChange}
+          />
+        </SNewCost__wrapper>
+        <SNewCost__btnEnter onClick={handleCreate}>
+          Добавить новый расход
+        </SNewCost__btnEnter>
+      </form>
+    </SContainer>
   );
 }
 
 export default PopNewCard;
-
-// function NewCost() {
-
-//   return (
-//     <>
-//     </>
-//   );
-// }
-
-// export default NewCost;

@@ -8,122 +8,119 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  *:before,
-  *:after {
-    box-sizing: border-box;
-  }
-
   :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  background-color: #F4F5F6;
+  font-family: montserrat;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  font-size: 12px;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+a,
+  a:visited, a:hover {
+  text-decoration: none;
+  cursor: pointer;
 }
 
+  ul li {
+    list-style: none;
+  }
+
 body {
-  margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  border-radius: 6px;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 `;
 
 export const SWrapper = styled.div`
-  max-width: 100%;
   width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const SContainer = styled.div`
-  max-width: 1260px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 30px;
+  margin: ${({ $entry }) => $entry && "auto"};
+  width: ${({ $width }) => $width ?? "auto"};
+  height: ${({ $height }) => $height ?? "auto"};
 
-  @media screen and (max-width: 495px) {
-    width: 100%;
-    padding: 0 16px;
-  }
+  background-color: #ffffff;
+
+  //*:not(hr) {
+  //background: linear-gradient(to bottom, black 2px, transparent 2px) center;
+  ${({ $noPadding }) =>
+    $noPadding
+      ? {
+          backgroundImage: "linear-gradient(#999999)",
+          backgroundSize: "100% 0.5px",
+          backgroundPosition: "top 113px right 0px",
+          backgroundRepeat: "no-repeat",
+        }
+      : {
+          padding: "32px",
+        }}
+
+  /* &::-webkit-scrollbar {
+  background-color: #000000;
+    //display: none;
+} */
+
+  border-radius: 30px;
+  //border: 0.7px solid #d4dbe5;
+  box-shadow: 0px 20px 67px -12px rgba(0, 0, 0, 0.13);
+
+  /* &::-webkit-scrollbar {
+  width: 10px;
+  background-color: #000000;
+} */
+
+  /* &::-webkit-scrollbar-track:vertical:start:decrement {
+    //width: 0px;
+     background-color: #000000;
+     display: none;
+  } */
+  /* scrollbar-width: thin;
+  scrollbar-color: #000000 #ffffff; */
+
+  /* &::-webkit-scrollbar-button:vertical:end:increment {
+    background: linear-gradient(300deg, #02141a 40%, rgba(0, 0, 0, 0) 41%),
+
+    background-color: #f6f8f4;
+} */
+
+  /* &::-webkit-scrollbar-thumb {
+  background-color: #050c26;
+  border-radius: 20px;
+  border: 3px solid #050c26;
+} */
 `;
 
-export const S_hover01 = styled.div`
-  &:hover {
-    background-color: #33399b;
-  }
+export const STitle = styled.h1`
+  margin-top: 36px;
+  margin-bottom: 32px;
+  font-size: 32px;
 `;
 
-export const S_hover02 = styled.a`
-  &:hover {
-    color: #33399b;
-    &::after {
-      border-left-color: #33399b;
-      border-bottom-color: #33399b;
-    }
-  }
+export const SWindow = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 33px;
 `;
 
-export const S_hover03 = styled.div`
-  color: #ffffff;
-
-  &:hover {
-    background-color: #33399b;
-    color: #ffffff;
-  }
+export const SCenter = styled.div`
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
 `;

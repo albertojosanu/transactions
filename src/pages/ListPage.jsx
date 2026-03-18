@@ -1,12 +1,15 @@
 import Table from "../components/Table/Table.jsx";
 import NewCost from "../components/NewCost/NewCost.jsx";
+import { STitle, SWindow } from "../index.styled.js";
 
 const ListPage = () => {
   return (
     <>
-    <div>Мои расходы</div>
-      <Table />
-      <NewCost />
+      <STitle>Мои расходы</STitle>
+      <SWindow>
+        <Table />
+        <NewCost />
+      </SWindow>
     </>
   );
 };

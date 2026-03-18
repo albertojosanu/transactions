@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const SNotFound = styled.div`
+  margin: auto;
   font-size: 24px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
 `;

@@ -1,72 +1,82 @@
 import { useContext } from "react";
-//import { useNavigate } from "react-router-dom";
+import {
+  STable__ttl,
+  STable__head,
+  STable__body,
+  STable__column1,
+  STable__column2,
+  STable__scrolled,
+} from "./Table.styled.js";
 import { TransactionContext } from "../../context/TransactionProvider.jsx";
+import { SContainer } from "../../index.styled.js";
 import bin from "../../images/bin.svg";
 
 function Table() {
   const { transactions, removeTransaction, setError, format } =
     useContext(TransactionContext);
-  //const navigate = useNavigate();
-
-  // const range = (start, end) =>
-  //   Array.from({ length: start - end + 1 }, (_, i) => start - i);
 
   return (
     <>
-    <div>Таблица расходов</div>
-      <table>
-        <thead>
-          <tr>
-            <td>Описание</td>
-            <td>Категория</td>
-            <td>Дата</td>
-            <td>Сумма</td>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((row) => (
-            <tr key={row?._id}>
-              <td>{row.description}</td>
-              <td>
-                {(() => {
-                  switch (row.category) {
-                    case "food":
-                      return "Еда";
-                    case "transport":
-                      return "Транспорт";
-                    case "housing":
-                      return "Жилье";
-                    case "joy":
-                      return "Развлечения";
-                    case "education":
-                      return "Образование";
-                    case "others":
-                      return "Другое";
-                  }
-                })()}
-              </td>
-              <td>{new Date(row.date).toLocaleDateString("ru-RU")}</td>
-              {/* <td>{(() => {for (let i = Math.floor((String(row.sum).length + 2) / 3); i > 0 ; i--) {console.log(i === 1 ? (String(row.sum).slice(-3)) : (String(row.sum).slice(-3*i, -3*(i-1)) + " "))}})()}</td> */}
-              <td>
-                {format(row.sum)}
-              </td>
-              <td>
-                <img
-                  src={bin}
-                  data-transaction-id={row?._id}
-                  onClick={(event) => {
-                    removeTransaction(event.target.dataset.transactionId);
-                    // console.log(event.target.dataset.transactionId)
-                    // console.log(event.target.getAttribute('src'))
-                    setError("");
-                    //navigate("/analysis");
-                  }}
-                ></img>
-              </td>
+      {/* <hr style={{position: "relative", top: "113.75px"}}/> */}
+      <SContainer $width="789px" $height="618px" $noPadding>
+        <STable__ttl>Таблица расходов</STable__ttl>
+
+        <STable__head>
+          <tbody>
+            <tr>
+              <STable__column1>Описание</STable__column1>
+              <STable__column1>Категория</STable__column1>
+              <STable__column1>Дата</STable__column1>
+              <STable__column2>Сумма</STable__column2>
+              <td></td>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </tbody>
+        </STable__head>
+        <STable__scrolled>
+          <STable__body>
+            <tbody>
+              {transactions.map((row) => (
+                <tr key={row?._id}>
+                  <STable__column1>{row.description}</STable__column1>
+                  <STable__column1>
+                    {(() => {
+                      switch (row.category) {
+                        case "food":
+                          return "Еда";
+                        case "transport":
+                          return "Транспорт";
+                        case "housing":
+                          return "Жилье";
+                        case "joy":
+                          return "Развлечения";
+                        case "education":
+                          return "Образование";
+                        case "others":
+                          return "Другое";
+                      }
+                    })()}
+                  </STable__column1>
+                  <STable__column1>
+                    {new Date(row.date).toLocaleDateString("ru-RU")}
+                  </STable__column1>
+                  {/* <td>{(() => {for (let i = Math.floor((String(row.sum).length + 2) / 3); i > 0 ; i--) {console.log(i === 1 ? (String(row.sum).slice(-3)) : (String(row.sum).slice(-3*i, -3*(i-1)) + " "))}})()}</td> */}
+                  <STable__column2>{format(row.sum)}</STable__column2>
+                  <td>
+                    <img
+                      src={bin}
+                      data-transaction-id={row?._id}
+                      onClick={(event) => {
+                        removeTransaction(event.target.dataset.transactionId);
+                        setError("");
+                      }}
+                    ></img>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </STable__body>
+        </STable__scrolled>
+      </SContainer>
     </>
   );
 }

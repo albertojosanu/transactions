@@ -1,35 +1,32 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   SHeader,
-  SHeader__block,
+  SHeader__location,
   SHeader__logo,
-  SShow,
-  SLight,
-  SDark,
   SHeader__nav,
-  SHeader__btnMainNew,
-  SHeader__user,
-  SHeader__popUserSet,
-  SPopUserSet__name,
-  SPopUserSet__mail,
-  SPopUserSet__theme,
-  SCheckbox,
+  SHeader__tab,
+  SHeader__exit,
 } from "./Header.styled.js";
-import { GlobalStyle, SContainer, S_hover03 } from "../../index.styled.js";
+import { SCenter } from "../../index.styled.js";
 import { AuthContext } from "../../context/AuthProvider.jsx";
 import { TransactionContext } from "../../context/TransactionProvider.jsx";
-import logo from '../../images/logo.svg'
+import logo from "../../images/logo.svg";
 
 function Header({ connect }) {
-  //const { user } = useContext(AuthContext);
   const { logout } = useContext(AuthContext);
-  const { setTransactions, setPeriodTransactions, setError } = useContext(TransactionContext);
-  //const { setDate } = useContext(TransactionContext);
+  const { setTransactions, setPeriodTransactions, setStart, setEnd } =
+    useContext(TransactionContext);
+  const location = useLocation();
+
+  // useEffect(() => {
+  //   location.pathname === "/" && navigate("/list");
+  // }, [location]);
 
   const navigate = useNavigate();
   const handleListPage = (e) => {
     e.preventDefault();
+    //setPage(e.target.innerText)
     //setDate(new Date());
     navigate("/list");
   };
@@ -43,6 +40,9 @@ function Header({ connect }) {
     setTransactions([]);
     setPeriodTransactions([]);
     //setError("");
+    setStart(null);
+    setEnd(null);
+    //setPage("")
     navigate("/login");
   };
   const handleStart = (e) => {
@@ -51,41 +51,42 @@ function Header({ connect }) {
   };
 
   return (
-    <>
-      <GlobalStyle />
-      <SHeader>
-        <SContainer>
+    <SHeader>
+      <SCenter>
+        <SHeader__location>
           <SHeader__logo>
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>
           </SHeader__logo>
-          {connect ? (
-            <SHeader__nav>
-              <SHeader__btnMainNew
-                as="button"
-                id="btnMainNew"
-                onClick={handleListPage}
-              >
-                Мои расходы
-              </SHeader__btnMainNew>
-              <SHeader__btnMainNew
-                as="button"
-                id="btnMainNew"
-                onClick={handleAnalysisPage}
-              >
-                Анализ расходов
-              </SHeader__btnMainNew>
-              <SHeader__user onClick={handleExit}>Выйти</SHeader__user>
-            </SHeader__nav>
+          {connect === 2 ? (
+            <>
+              <SHeader__nav>
+                <SHeader__tab
+                  $location={location.pathname === "/list"}
+                  onClick={handleListPage}
+                >
+                  Мои расходы
+                </SHeader__tab>
+                <SHeader__tab
+                  $location={location.pathname === "/analysis"}
+                  onClick={handleAnalysisPage}
+                >
+                  Анализ расходов
+                </SHeader__tab>
+              </SHeader__nav>
+              <SHeader__exit onClick={handleExit}>Выйти</SHeader__exit>
+            </>
           ) : (
-            <SHeader__btnMainNew as="button" onClick={handleStart}>
-              Перейти на главную
-            </SHeader__btnMainNew>
+            connect === 1 && (
+              <SHeader__exit onClick={handleStart}>
+                Перейти на главную
+              </SHeader__exit>
+            )
           )}
-        </SContainer>
-      </SHeader>
-    </>
+        </SHeader__location>
+      </SCenter>
+    </SHeader>
   );
 }
 

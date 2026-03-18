@@ -6,7 +6,7 @@ const NotFoundPage = () => {
   return (
     <>
       <SWrapper>
-        <Header connect={false} />
+        <Header connect={1} />
         <NotFound />
       </SWrapper>
     </>
