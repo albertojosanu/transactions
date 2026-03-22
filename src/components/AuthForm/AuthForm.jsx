@@ -125,7 +125,7 @@ const AuthForm = ({ isSignUp }) => {
         <SModal__ttl>{isSignUp ? "Регистрация" : "Вход"}</SModal__ttl>
         <SModal__formLogin id="formLog">
           {isSignUp && (
-            <SModal__wrapper $error={error} $validate={valid}>
+            <SModal__wrapper $error={errors.name} $validate={valid}>
               <SModal__input
                 type="text"
                 name="name"
@@ -136,13 +136,13 @@ const AuthForm = ({ isSignUp }) => {
                 value={formData.name}
                 //value={! error ? formData.name.replace(/[ \*]/g, "") : formData.name + " *"}
                 error={String(errors.name)}
-                $error={error}
+                $error={errors.name}
                 $length={length.name}
               />
               <SModal__star>{errors.name && "*"}</SModal__star>
             </SModal__wrapper>
           )}
-          <SModal__wrapper $error={error} $validate={valid}>
+          <SModal__wrapper $error={errors.login} $validate={valid}>
             <SModal__input
               type="text"
               name="login"
@@ -153,12 +153,12 @@ const AuthForm = ({ isSignUp }) => {
               value={formData.login}
               //value={! error ? formData.login.replace(/[ \*]/g, "") : formData.login + " *"}
               error={String(errors.login)}
-              $error={error}
+              $error={errors.login}
               $length={length.login}
             />
             <SModal__star>{errors.login && "*"}</SModal__star>
           </SModal__wrapper>
-          <SModal__wrapper $error={error} $validate={valid}>
+          <SModal__wrapper $error={errors.password} $validate={valid}>
             <SModal__input
               type="password"
               name="password"
@@ -169,7 +169,7 @@ const AuthForm = ({ isSignUp }) => {
               value={formData.password}
               //value={! error ? formData.password.replace(/[ \*]/g, "") : formData.password + " *"}
               error={String(errors.password)}
-              $error={error}
+              $error={errors.password}
               $length={length.password}
             />
             <SModal__star>{errors.password && "*"}</SModal__star>

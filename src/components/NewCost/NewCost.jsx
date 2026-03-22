@@ -64,7 +64,7 @@ function PopNewCard() {
       isValid = false;
     };
 
-    if (!formData.description.trim()) {
+    if (!formData.description.trim() || formData.description.trim().length < 4) {
       newErrors.description = true;
       wrong();
     }
@@ -124,7 +124,7 @@ function PopNewCard() {
       <form>
         <SNewCost__label>Описание</SNewCost__label>
         <SNewCost__star>{errors.description && " *"}</SNewCost__star>
-        <SNewCost__wrapper $error={error} $validate={valid}>
+        <SNewCost__wrapper $error={errors.description} $validate={valid}>
           <SNewCost__input
             type="text"
             name="description"
@@ -206,7 +206,7 @@ function PopNewCard() {
 
         <SNewCost__label>Дата</SNewCost__label>
         <SNewCost__star>{errors.date && " *"}</SNewCost__star>
-        <SNewCost__wrapper $error={error} $validate={valid}>
+        <SNewCost__wrapper $error={errors.date} $validate={valid}>
           <SNewCost__input
             type="date"
             name="date"
@@ -219,7 +219,7 @@ function PopNewCard() {
 
         <SNewCost__label>Сумма</SNewCost__label>
         <SNewCost__star>{errors.sum && " *"}</SNewCost__star>
-        <SNewCost__wrapper $error={error} $validate={valid}>
+        <SNewCost__wrapper $error={errors.sum} $validate={valid}>
           <SNewCost__input
             type="number"
             name="sum"
