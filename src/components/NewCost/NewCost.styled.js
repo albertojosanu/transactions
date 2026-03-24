@@ -23,11 +23,8 @@ export const SNewCost__wrapper = styled.div`
 `;
 
 export const SNewCost__input = styled.input`
-  //outline: none;
-  //width: ${({ $error, $length }) => ($error ? $length + 1 + "ch" : "100%")};
   width: 100%;
   background-color: inherit;
-  //background-color: ${({ $error, $validate }) => $error ? "#FFEBEB" : $validate && "#F1EBFD"};
   border: none;
 
   &:focus {
@@ -46,7 +43,6 @@ export const SNewCost__btnEnter = styled.button`
   pointer-events: ${({ $error }) => ($error ? "none" : "auto")};
   border-radius: 6px;
   border: none;
-  //outline: none;
   color: #ffffff;
 `;
 

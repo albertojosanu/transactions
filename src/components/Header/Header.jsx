@@ -19,15 +19,9 @@ function Header({ connect }) {
     useContext(TransactionContext);
   const location = useLocation();
 
-  // useEffect(() => {
-  //   location.pathname === "/" && navigate("/list");
-  // }, [location]);
-
   const navigate = useNavigate();
   const handleListPage = (e) => {
     e.preventDefault();
-    //setPage(e.target.innerText)
-    //setDate(new Date());
     navigate("/list");
   };
   const handleAnalysisPage = (e) => {
@@ -39,10 +33,8 @@ function Header({ connect }) {
     logout();
     setTransactions([]);
     setPeriodTransactions([]);
-    //setError("");
     setStart(null);
     setEnd(null);
-    //setPage("")
     navigate("/login");
   };
   const handleStart = (e) => {

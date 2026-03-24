@@ -43,7 +43,6 @@ export const SChart__sum = styled.div`
   align-content: end;
   height: ${({ $height }) => $height};
 `;
-//style={{height: String(348 - 328 * categorySumVisual[data]/(Math.max(...Object.values(categorySumVisual)) + 1e-9)) + "px", alignContent: "end"}}
 
 export const SChart__bar = styled.div`
   border-radius: 12px;

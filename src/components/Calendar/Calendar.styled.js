@@ -42,7 +42,6 @@ export const SCalendar__cells = styled.div`
 export const SCalendar__cell = styled.div`
   visibility: ${({ $exist }) => !$exist && "hidden"};
   flex-basis: 12.5%;
-  //width: 40px;
   height: 40px;
   text-align: center;
   align-content: center;

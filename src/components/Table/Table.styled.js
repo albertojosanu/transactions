@@ -7,8 +7,6 @@ export const STable__ttl = styled.h2`
 
 export const STable__content = styled.table`
   table-layout: fixed;
-  //border-collapse: collapse;
-  //border-spacing: 32px 14px;
   width: 100%;
 `;
 
@@ -22,8 +20,6 @@ export const STable__scrolled = styled.div`
 export const STable__head = styled(STable__content)`
   color: #999999;
   border-spacing: 32px 0px;
-  /* td {
-  border-bottom: 0.5px solid #999999;} */
   padding-bottom: 24px;
 `;
 

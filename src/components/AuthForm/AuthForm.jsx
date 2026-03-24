@@ -83,7 +83,6 @@ const AuthForm = ({ isSignUp }) => {
 
     setErrors({ ...errors, [name]: false });
     setError("");
-    //Object.values(formData).map((total) => console.log(total.length));
     setValid(
       Object.keys(formData).reduce(
         (total, currentValue) =>
@@ -121,76 +120,73 @@ const AuthForm = ({ isSignUp }) => {
   };
 
   return (
-      <SContainer $entry $width="380px">
-        <SModal__ttl>{isSignUp ? "Регистрация" : "Вход"}</SModal__ttl>
-        <SModal__formLogin id="formLog">
-          {isSignUp && (
-            <SModal__wrapper $error={errors.name} $validate={valid}>
-              <SModal__input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Имя"
-                autoComplete="on"
-                onChange={handleChange}
-                value={formData.name}
-                //value={! error ? formData.name.replace(/[ \*]/g, "") : formData.name + " *"}
-                error={String(errors.name)}
-                $error={errors.name}
-                $length={length.name}
-              />
-              <SModal__star>{errors.name && "*"}</SModal__star>
-            </SModal__wrapper>
-          )}
-          <SModal__wrapper $error={errors.login} $validate={valid}>
+    <SContainer $entry $width="380px">
+      <SModal__ttl>{isSignUp ? "Регистрация" : "Вход"}</SModal__ttl>
+      <SModal__formLogin id="formLog">
+        {isSignUp && (
+          <SModal__wrapper $error={errors.name} $validate={valid}>
+            <SModal__star $length={length.name} $error={errors.name}>
+              {errors.name && "*"}
+            </SModal__star>
             <SModal__input
               type="text"
-              name="login"
-              id="formlogin"
-              placeholder="Эл. почта"
+              name="name"
+              placeholder="Имя"
               autoComplete="on"
               onChange={handleChange}
-              value={formData.login}
-              //value={! error ? formData.login.replace(/[ \*]/g, "") : formData.login + " *"}
-              error={String(errors.login)}
-              $error={errors.login}
-              $length={length.login}
+              value={formData.name}
+              error={String(errors.name)}
+              $error={errors.name}
             />
-            <SModal__star>{errors.login && "*"}</SModal__star>
           </SModal__wrapper>
-          <SModal__wrapper $error={errors.password} $validate={valid}>
-            <SModal__input
-              type="password"
-              name="password"
-              id="formpassword"
-              placeholder="Пароль"
-              autoComplete="on"
-              onChange={handleChange}
-              value={formData.password}
-              //value={! error ? formData.password.replace(/[ \*]/g, "") : formData.password + " *"}
-              error={String(errors.password)}
-              $error={errors.password}
-              $length={length.password}
-            />
-            <SModal__star>{errors.password && "*"}</SModal__star>
-          </SModal__wrapper>
-          <SModal__description>{error}</SModal__description>
-          <SModal__btnEnter onClick={handleSubmit} $error={error}>
-            {isSignUp ? "Зарегистрироваться" : "Войти"}
-          </SModal__btnEnter>
-          {!isSignUp ? (
-            <SModal__formGroup>
-              <p>Нужно зарегистрироваться?</p>
-              <Link to="/register">Регистрируйтесь здесь</Link>
-            </SModal__formGroup>
-          ) : (
-            <SModal__formGroup>
-              <p>Уже есть аккаунт? </p>
-              <Link to="/login">Войдите здесь</Link>
-            </SModal__formGroup>
-          )}
-        </SModal__formLogin>
-      </SContainer>
+        )}
+        <SModal__wrapper $error={errors.login} $validate={valid}>
+          <SModal__star $length={length.login} $error={errors.login}>
+            {errors.login && "*"}
+          </SModal__star>
+          <SModal__input
+            type="text"
+            name="login"
+            placeholder="Эл. почта"
+            autoComplete="on"
+            onChange={handleChange}
+            value={formData.login}
+            error={String(errors.login)}
+            $error={errors.login}
+          />
+        </SModal__wrapper>
+        <SModal__wrapper $error={errors.password} $validate={valid}>
+          <SModal__star $length={length.password} $error={errors.password}>
+            {errors.password && "*"}
+          </SModal__star>
+          <SModal__input
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            autoComplete="on"
+            onChange={handleChange}
+            value={formData.password}
+            error={String(errors.password)}
+            $error={errors.password}
+          />
+        </SModal__wrapper>
+        <SModal__description>{error}</SModal__description>
+        <SModal__btnEnter onClick={handleSubmit} $error={error}>
+          {isSignUp ? "Зарегистрироваться" : "Войти"}
+        </SModal__btnEnter>
+        {!isSignUp ? (
+          <SModal__formGroup>
+            <p>Нужно зарегистрироваться?</p>
+            <Link to="/register">Регистрируйтесь здесь</Link>
+          </SModal__formGroup>
+        ) : (
+          <SModal__formGroup>
+            <p>Уже есть аккаунт? </p>
+            <Link to="/login">Войдите здесь</Link>
+          </SModal__formGroup>
+        )}
+      </SModal__formLogin>
+    </SContainer>
   );
 };
 

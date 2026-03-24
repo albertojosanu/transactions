@@ -17,7 +17,6 @@ function Table() {
 
   return (
     <>
-      {/* <hr style={{position: "relative", top: "113.75px"}}/> */}
       <SContainer $width="789px" $height="618px" $noPadding>
         <STable__ttl>Таблица расходов</STable__ttl>
 
@@ -59,7 +58,6 @@ function Table() {
                   <STable__column1>
                     {new Date(row.date).toLocaleDateString("ru-RU")}
                   </STable__column1>
-                  {/* <td>{(() => {for (let i = Math.floor((String(row.sum).length + 2) / 3); i > 0 ; i--) {console.log(i === 1 ? (String(row.sum).slice(-3)) : (String(row.sum).slice(-3*i, -3*(i-1)) + " "))}})()}</td> */}
                   <STable__column2>{format(row.sum)}</STable__column2>
                   <td>
                     <img

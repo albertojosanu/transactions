@@ -14,7 +14,6 @@ export const SModal__formLogin = styled.form`
 `;
 
 export const SModal__wrapper = styled.div`
-  width: 100%;
   border-radius: 6px;
   border: ${({ $error, $validate }) =>
     "0.5px solid " + ($error ? "#F25050" : $validate ? "#7334EA" : "#999999")};
@@ -22,13 +21,10 @@ export const SModal__wrapper = styled.div`
   background-color: ${({ $error, $validate }) =>
     $error ? "#FFEBEB" : $validate && "#F1EBFD"};
 `;
-//border: ${({ $error, $validate }) => 0.5px solid $error ? #F25050 : ($validate ? #7334EA : #999999)};
 
 export const SModal__input = styled.input`
-  //outline: none;
-  width: ${({ $error, $length }) => ($error ? $length + 1 + "ch" : "100%")};
+  width: 100%;
   background-color: inherit;
-  //background-color: ${({ $error, $validate }) => $error ? "#FFEBEB" : $validate && "#F1EBFD"};
   border: none;
 
   &:focus {
@@ -40,13 +36,11 @@ export const SModal__input = styled.input`
   }
 
   &:-webkit-autofill {
-    //-webkit-text-fill-color: #ffffff;
     -webkit-box-shadow: 0 0 0px 1000px
       ${({ $error, $validate }) =>
         $error ? "#FFEBEB" : $validate ? "#F1EBFD" : "#FFFFFF"}
       inset;
-    //-webkit-box-shadow:  ${({ $error, $validate }) => $error ? "0 0 0px 1000px #FFEBEB inset" : $validate ? "0 0 0px 1000px #F1EBFD inset" : "0 0 0px 1000px #FFFFFF inset"};
-}
+  }
 `;
 
 export const SModal__btnEnter = styled.button`
@@ -80,5 +74,7 @@ export const SModal__description = styled.div`
 `;
 
 export const SModal__star = styled.span`
+  position: relative;
+  left: ${({ $error, $length }) => ($error ? $length + 1 + "ch" : "100%")};
   color: #f25050;
 `;
